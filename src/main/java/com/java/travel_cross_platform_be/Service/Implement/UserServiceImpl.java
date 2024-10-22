@@ -1,6 +1,7 @@
 package com.java.travel_cross_platform_be.Service.Implement;
 
 
+import com.java.travel_cross_platform_be.Converter.UserConverter;
 import com.java.travel_cross_platform_be.DTOs.DTO.UserDTO;
 import com.java.travel_cross_platform_be.Model.Entity.TravelUser;
 import com.java.travel_cross_platform_be.Repository.Interface.UserRepository;
@@ -21,12 +22,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         TravelUser user = new TravelUser();
-        BeanUtils.copyProperties(userDTO, user);
-        TravelUser savedUser = userRepository.save(user);
+//        BeanUtils.copyProperties(userDTO, user);
+        user = userConverter.convertToEntity(userDTO);
+
+        userRepository.save(user);
         UserDTO savedUserDTO = new UserDTO();
         BeanUtils.copyProperties(user, savedUserDTO);
         return savedUserDTO;
@@ -70,5 +74,16 @@ public class UserServiceImpl implements UserService {
             BeanUtils.copyProperties(user, userDTO);
             return userDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<UserDTO> getUserByEmail(String email) {
+        Optional<TravelUser> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user.get(), userDTO);
+            return Optional.of(userDTO);
+        }
+        return Optional.empty();
     }
 }

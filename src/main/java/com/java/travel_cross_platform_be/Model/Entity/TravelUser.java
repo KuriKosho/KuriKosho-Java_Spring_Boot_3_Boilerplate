@@ -1,6 +1,9 @@
 package com.java.travel_cross_platform_be.Model.Entity;
 
 import com.java.travel_cross_platform_be.Model.BaseModel;
+import com.java.travel_cross_platform_be.Model.Entity.Hotel.HotelFeedback;
+import com.java.travel_cross_platform_be.Model.Entity.Ticket.TicketFeedback;
+import com.java.travel_cross_platform_be.Model.Entity.Tour.TourFeedback;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -77,5 +81,23 @@ public class TravelUser extends BaseModel {
 
     @Column(name = "cover_picture", nullable = true)
     private String coverPicture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookTour> bookings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookHotel> bookHotels;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookTicket> bookTickets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TourFeedback> tourFeedbacks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<HotelFeedback> hotelFeedbacks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TicketFeedback> ticketFeedbacks;
 
 }

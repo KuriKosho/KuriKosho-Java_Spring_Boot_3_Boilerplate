@@ -1,6 +1,7 @@
 package com.java.travel_cross_platform_be.Config;
 
 
+import com.java.travel_cross_platform_be.Model.Entity.TravelUser;
 import com.java.travel_cross_platform_be.Service.Jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

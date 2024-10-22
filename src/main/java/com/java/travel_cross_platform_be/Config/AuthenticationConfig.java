@@ -23,11 +23,6 @@ public class AuthenticationConfig  {
     private final UserRepository repository;
     private final CustomUserDetailsService customUserDetailsService;
 
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-//        return username -> repository.findByEmail(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User with email = "+username+" not found"));
-//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
